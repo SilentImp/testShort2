@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="634px" height="554px" viewBox="0 0 634 554" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46 (44423) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 5</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-5">
+            <circle id="Oval-2" stroke="#FF0000" stroke-width="3" cx="317" cy="321" r="199"></circle>
+            <g id="Group-2" transform="translate(189.000000, 0.000000)">
+                <circle id="Oval" fill="#00E723" cx="128.5" cy="128.5" r="128.5"></circle>
+                <text id="COMPONENT" font-family="PTSans-Bold, PT Sans" font-size="24" font-weight="bold" fill="#FFFFFF">
+                    <tspan x="60" y="136">COMPONENT</tspan>
+                </text>
+            </g>
+            <g id="Group-4" transform="translate(0.000000, 297.000000)">
+                <g id="Group-3" transform="translate(377.000000, 0.000000)">
+                    <circle id="Oval" fill="#00D1E7" cx="128.5" cy="128.5" r="128.5"></circle>
+                    <text id="ACTION" font-family="PTSans-Bold, PT Sans" font-size="24" font-weight="bold" fill="#FFFFFF">
+                        <tspan x="88" y="136">ACTION</tspan>
+                    </text>
+                </g>
+                <g id="Group">
+                    <circle id="Oval" fill="#E7008B" cx="128.5" cy="128.5" r="128.5"></circle>
+                    <text id="REDUSER" font-family="PTSans-Bold, PT Sans" font-size="24" font-weight="bold" fill="#FFFFFF">
+                        <tspan x="80" y="136">REDUSER</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><title>Testing Shorts #1</title><link href="css/styles.css" rel="stylesheet"><script data-main="js/presentation" src="js/requirejs/require.js"></script></head><body><form class="go-to-page" action="/select/slide" method="post"><fieldset><input type="text" maxlength="3" value="" placeholder="1"></fieldset></form><section class="progress"><div class="value"></div></section><section class="dark" id="slides"><article class="center title"><div class="wrapper"><h1>React + Redux  </h1></div></article><article class="screen screen--app"></article><article class="center qrcode var-2"><div class="wrapper"><div class="half"><h2>App</h2></div><div class="half"><img src="images/app_link.svg" alt="QRCODE"></div><p><a href="https://gitlab.com/TemplateMonster/PlasmaPlatform/Frontend/Test/scaffolder2" data-click>http://bit.ly/2gHfjQh</a></p></div></article><article class="illustration illustration--flow"></article><article class="center chapters"><div class="wrapper"><ul><li>Actions</li><li>Reducers</li><li>Components</li></ul></div></article><article class="center title"><div class="wrapper"><h1>Actions</h1></div></article><article class="center code-9"><div class="wrapper"><pre><code class="bash">./actions
+  ./__tests__
+    ./Users.js
+  ./Users.js
+</code></pre></div></article><article class="center code-2"><div class="wrapper"><pre><code class="js">import users from 'users';
+
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import nock from 'nock';
+import * as actions from '../Users';
+import * as types from '../../types/Users';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+</code></pre></div></article><article class="center code-8"><div class="wrapper"><pre><code class="js">describe('Users', () => {
+  //…
+});
+</code></pre></div></article><article class="center title"><div class="wrapper"><h1>Sync action</h1></div></article><article class="center code-1"><div class="wrapper"><pre><code class="js">it('request action ', () => {
+  const initialState = {};
+  const store = mockStore(initialState);
+  store.dispatch(actions.Request());
+  const actionsList = store.getActions();
+  expect(actionsList).toContainEqual({
+    type: types.GET_LIST_REQUEST,
+  });
+});
+</code></pre></div></article><article class="center title"><div class="wrapper"><h1>Async action</h1></div></article><article class="center code-3"><div class="wrapper"><pre><code class="js">it('request users list success', async () => {
+  const initialState = {
+    Users: {
+      loading: false,
+      currentPage: 0,
+      pageCount: Infinity,
+      totalCount: Infinity,
+      perPage: 5,
+      data: [],
+    },
+  };
+  const store = mockStore(initialState);
+  // …
+}
+</code></pre></div></article><article class="center code-3"><div class="wrapper"><pre><code class="js">//…
+nock(/[.]+/)
+    .get('/api/users?page=1&per_page=5')
+    .reply(200, users, {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    });
+
+const action = await actions.Fetch();
+await store.dispatch(action);
+const actionsList = store.getActions();
+//…
+</code></pre></div></article><article class="center code-2"><div class="wrapper"><pre><code class="js">//…
+expect(actionsList).toContainEqual({
+  type: types.GET_LIST_REQUEST,
+});
+
+expect(actionsList).toContainEqual({
+  type: types.GET_LIST_SUCCESS,
+  payload: users,
+});
+//…
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="js">nock(/[.]+/)
+  .get('/api/users?page=1&per_page=5')
+  .reply(500, null, {
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json',
+  });
+  </code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="js">expect(actionsList).toContainEqual({
+  type: types.GET_LIST_FAIL,
+});
+</code></pre></div></article><article class="center title"><div class="wrapper"><h1>Reducers</h1></div></article><article class="center code-3"><div class="wrapper"><pre><code class="js">import users from 'users';
+import reducer from '../Users';
+import * as types from '../../types/Users';
+
+const defaultState = {
+  loading: false,
+  currentPage: 0,
+  pageCount: Infinity,
+  totalCount: Infinity,
+  perPage: 5,
+  data: [],
+};
+</code></pre></div></article><article class="center code-3"><div class="wrapper"><pre><code class="js">describe('Users reducer', () => {
+  it('should return the default state on unknown action', () => {
+    expect(reducer(undefined, {})).toEqual(defaultState);
+  });
+  //…
+});
+</code></pre></div></article><article class="center code-2"><div class="wrapper"><pre><code class="js">it('should turn loading state on request', () => {
+  const action = {
+    type: types.GET_LIST_REQUEST,
+  };
+  const newState = reducer(defaultState, action);
+  expect(newState.loading).toEqual(true);
+});
+</code></pre></div></article><article class="center title"><div class="wrapper"><h1>Components</h1></div></article><article class="center qrcode var-2"><div class="wrapper"><div class="half"><h2>Enzyme</h2></div><div class="half"><img src="images/enzyme_link.svg" alt="QRCODE"></div><p><a href="http://airbnb.io/enzyme/" data-click>http://bit.ly/2wBbmC1</a></p></div></article><article class="center code-9"><div class="wrapper"><pre><code class="bash">npm i -D enzyme
+</code></pre></div></article><article class="center code-1"><div class="wrapper"><pre><code class="js">import React from 'react';
+import nock from 'nock';
+import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+</code></pre></div></article><article class="center code-1"><div class="wrapper"><pre><code class="js">import Users from '../index';
+import reducer from '../../../reducers';
+import * as types from '../../../types/Users';
+</code></pre></div></article><article class="center code-8"><div class="wrapper"><pre><code class="js">import users from 'users';
+import page1 from 'page1';
+import page2 from 'page2';
+import page3 from 'page3';
+</code></pre></div></article><article class="center code-7"><div class="wrapper"><pre><code class="js">const sleep = new Promise(
+  (resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 500);
+  });
+</code></pre></div></article><article class="center code-1"><div class="wrapper"><pre><code class="js">const middlewares = [thunk];
+const mockStore = configureStore(middlewares);
+
+describe('Component', () => {
+  // …
+});
+</code></pre></div></article><article class="center code-3"><div class="wrapper"><pre><code class="js">it('should mount and request users list', async () => {
+  nock(/[.]+/)
+      .get('/api/users?page=1&per_page=5')
+      .reply(200, users, {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json',
+      });
+  const store = mockStore(reducer());
+  const component = mount(
+    &lt;Provider store={store}>
+      &lt;Users />
+    &lt;/Provider>);
+  //…
+});
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="js">const button = component.find('button');
+expect(button.length).toBe(1);
+</code></pre></div></article><article class="center code-2"><div class="wrapper"><pre><code class="js">await sleep;
+
+const actionsList = store.getActions();
+expect(actionsList).toContainEqual({
+  type: types.GET_LIST_REQUEST,
+});
+expect(actionsList).toContainEqual({
+  type: types.GET_LIST_SUCCESS,
+  payload: users,
+});
+</code></pre></div></article><article class="center code-0"><div class="wrapper"><pre><code class="js">it('More button should be disabled 
+  while loading', async () => {
+  nock(/[.]+/)
+    .get('/api/users?page=1&per_page=5')
+    .reply(200);
+  // …
+});
+</code></pre></div></article><article class="center code-1"><div class="wrapper"><pre><code class="js">const store = mockStore(page3);
+const component = mount(
+  &lt;Provider store={store}>
+    &lt;Users />
+  &lt;/Provider>);
+const button = component.find('button');
+
+expect(button.prop('disabled')).toBe(true);
+</code></pre></div></article><article class="screen screen--win"></article><article class="contacts center qrcode"><div class="wrapper"><div class="about-speaker half"><p class="name">Антон Немцев</p><p class="link">http://silentimp.info/</p><p class="twitter">@silentimp</p><p class="email">thesilentimp@gmail.com</p><p class="skype">skype: ravencry</p></div><div class="half"><img src="images/repo_link.svg" alt="QRCODE cо ссылкой на доклад"></div><p><a href="https://github.com/SilentImp/testShort" data-click>http://bit.ly/2eogzn4</a></p></div></article></section></body></html>

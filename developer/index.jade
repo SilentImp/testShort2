@@ -1,0 +1,355 @@
+extends ./partials/layout.jade
+
+block title
+  title Testing Shorts #1
+
+block slides
+
+  article.center.title
+    .wrapper
+      h1 React + Redux  
+      
+  article.screen.screen--app
+    
+  article.center.qrcode.var-2
+    .wrapper
+      .half
+        h2 App
+      .half
+        img(src="images/app_link.svg", alt="QRCODE")
+      p
+        a(href="https://gitlab.com/TemplateMonster/PlasmaPlatform/Frontend/Test/scaffolder2", data-click=true) http://bit.ly/2gHfjQh
+
+  
+  article.illustration.illustration--flow
+  
+  article.center.chapters
+    .wrapper
+      ul
+        li Actions
+        li Reducers
+        li Components
+  
+  article.center.title
+    .wrapper
+      h1 Actions
+      
+  article.center.code-9
+    .wrapper
+      pre
+        code.bash.
+          ./actions
+            ./__tests__
+              ./Users.js
+            ./Users.js
+      
+  article.center.code-2
+    .wrapper
+      pre
+        code.js.
+          import users from 'users';
+          
+          import configureMockStore from 'redux-mock-store';
+          import thunk from 'redux-thunk';
+          import nock from 'nock';
+          import * as actions from '../Users';
+          import * as types from '../../types/Users';
+
+          const middlewares = [thunk];
+          const mockStore = configureMockStore(middlewares);
+
+  article.center.code-8
+    .wrapper
+      pre
+        code.js.
+          describe('Users', () => {
+            //…
+          });
+
+  article.center.title
+    .wrapper
+      h1 Sync action
+
+  article.center.code-1
+    .wrapper
+      pre
+        code.js.
+          it('request action ', () => {
+            const initialState = {};
+            const store = mockStore(initialState);
+            store.dispatch(actions.Request());
+            const actionsList = store.getActions();
+            expect(actionsList).toContainEqual({
+              type: types.GET_LIST_REQUEST,
+            });
+          });
+          
+  article.center.title
+    .wrapper
+      h1 Async action
+      
+  article.center.code-3
+    .wrapper
+      pre
+        code.js.
+          it('request users list success', async () => {
+            const initialState = {
+              Users: {
+                loading: false,
+                currentPage: 0,
+                pageCount: Infinity,
+                totalCount: Infinity,
+                perPage: 5,
+                data: [],
+              },
+            };
+            const store = mockStore(initialState);
+            // …
+          }
+          
+  article.center.code-3
+    .wrapper
+      pre
+        code.js.
+          //…
+          nock(/[.]+/)
+              .get('/api/users?page=1&per_page=5')
+              .reply(200, users, {
+                'Access-Control-Allow-Origin': '*',
+                'Content-Type': 'application/json',
+              });
+
+          const action = await actions.Fetch();
+          await store.dispatch(action);
+          const actionsList = store.getActions();
+          //…
+          
+  article.center.code-2
+    .wrapper
+      pre
+        code.js.
+          //…
+          expect(actionsList).toContainEqual({
+            type: types.GET_LIST_REQUEST,
+          });
+
+          expect(actionsList).toContainEqual({
+            type: types.GET_LIST_SUCCESS,
+            payload: users,
+          });
+          //…
+          
+  article.center.code-0
+    .wrapper
+      pre
+        code.js.
+          nock(/[.]+/)
+            .get('/api/users?page=1&per_page=5')
+            .reply(500, null, {
+              'Access-Control-Allow-Origin': '*',
+              'Content-Type': 'application/json',
+            });
+            
+  article.center.code-0
+    .wrapper
+      pre
+        code.js.
+          expect(actionsList).toContainEqual({
+            type: types.GET_LIST_FAIL,
+          });
+
+  article.center.title
+    .wrapper
+      h1 Reducers
+      
+  article.center.code-3
+    .wrapper
+      pre
+        code.js.
+          import users from 'users';
+          import reducer from '../Users';
+          import * as types from '../../types/Users';
+
+          const defaultState = {
+            loading: false,
+            currentPage: 0,
+            pageCount: Infinity,
+            totalCount: Infinity,
+            perPage: 5,
+            data: [],
+          };
+
+  article.center.code-3
+    .wrapper
+      pre
+        code.js.
+          describe('Users reducer', () => {
+            it('should return the default state on unknown action', () => {
+              expect(reducer(undefined, {})).toEqual(defaultState);
+            });
+            //…
+          });
+      
+  article.center.code-2
+    .wrapper
+      pre
+        code.js.
+          it('should turn loading state on request', () => {
+            const action = {
+              type: types.GET_LIST_REQUEST,
+            };
+            const newState = reducer(defaultState, action);
+            expect(newState.loading).toEqual(true);
+          });
+
+  article.center.title
+    .wrapper
+      h1 Components
+      
+  article.center.qrcode.var-2
+    .wrapper
+      .half
+        h2 Enzyme
+      .half
+        img(src="images/enzyme_link.svg", alt="QRCODE")
+      p
+        a(href="http://airbnb.io/enzyme/", data-click=true) http://bit.ly/2wBbmC1
+
+
+  article.center.code-9
+    .wrapper
+      pre
+        code.bash.
+          npm i -D enzyme
+
+  article.center.code-1
+    .wrapper
+      pre
+        code.js.
+          import React from 'react';
+          import nock from 'nock';
+          import { Provider } from 'react-redux';
+          import { mount } from 'enzyme';
+          import configureStore from 'redux-mock-store';
+          import thunk from 'redux-thunk';
+          
+  article.center.code-1
+    .wrapper
+      pre
+        code.js.
+          import Users from '../index';
+          import reducer from '../../../reducers';
+          import * as types from '../../../types/Users';
+
+  article.center.code-8
+    .wrapper
+      pre
+        code.js.
+          import users from 'users';
+          import page1 from 'page1';
+          import page2 from 'page2';
+          import page3 from 'page3';
+  
+  article.center.code-7
+    .wrapper
+      pre
+        code.js.
+          const sleep = new Promise(
+            (resolve) => {
+              setTimeout(() => {
+                resolve();
+              }, 500);
+            });
+
+  article.center.code-1
+    .wrapper
+      pre
+        code.js.
+          const middlewares = [thunk];
+          const mockStore = configureStore(middlewares);
+
+          describe('Component', () => {
+            // …
+          });
+
+  article.center.code-3
+    .wrapper
+      pre
+        code.js.
+          it('should mount and request users list', async () => {
+            nock(/[.]+/)
+                .get('/api/users?page=1&per_page=5')
+                .reply(200, users, {
+                  'Access-Control-Allow-Origin': '*',
+                  'Content-Type': 'application/json',
+                });
+            const store = mockStore(reducer());
+            const component = mount(
+              &lt;Provider store={store}>
+                &lt;Users />
+              &lt;/Provider>);
+            //…
+          });
+
+  article.center.code-0
+    .wrapper
+      pre
+        code.js.
+          const button = component.find('button');
+          expect(button.length).toBe(1);
+          
+  article.center.code-2
+    .wrapper
+      pre
+        code.js.
+          await sleep;
+          
+          const actionsList = store.getActions();
+          expect(actionsList).toContainEqual({
+            type: types.GET_LIST_REQUEST,
+          });
+          expect(actionsList).toContainEqual({
+            type: types.GET_LIST_SUCCESS,
+            payload: users,
+          });
+          
+  article.center.code-0
+    .wrapper
+      pre
+        code.js.
+          it('More button should be disabled 
+            while loading', async () => {
+            nock(/[.]+/)
+              .get('/api/users?page=1&per_page=5')
+              .reply(200);
+            // …
+          });
+
+  article.center.code-1
+    .wrapper
+      pre
+        code.js.
+          const store = mockStore(page3);
+          const component = mount(
+            &lt;Provider store={store}>
+              &lt;Users />
+            &lt;/Provider>);
+          const button = component.find('button');
+
+          expect(button.prop('disabled')).toBe(true);
+
+  article.screen.screen--win
+
+  article.contacts.center.qrcode
+    .wrapper
+      .about-speaker.half
+        p.name Антон Немцев
+        p.link http://silentimp.info/
+        p.twitter @silentimp
+        p.email thesilentimp@gmail.com
+        p.skype skype: ravencry
+      .half
+        img(src="images/repo_link.svg", alt="QRCODE cо ссылкой на доклад")
+  
+      p
+        a(href="https://github.com/SilentImp/testShort", data-click=true) http://bit.ly/2eogzn4
